@@ -18,7 +18,7 @@ def unique_temporary_directory() -> str:
     """
     # root = _os.path.expandvars("/$DD_SHOWS_ROOT/$DD_SHOW/$DD_SEQ/$DD_SHOT/user/work.$USER/farm/rifs")
     root = _os.path.expandvars("/vfx/wgid/tmp/farm/rifs/$USER")
-    now = _datetime.datetime.now().strftime("%Y%m%d-%H%M")
+    now = _datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     full_path = _os.path.join(root, now, _uuid.uuid4().hex[:8])  # Create the directory
     _os.makedirs(full_path, exist_ok=True)
 
@@ -49,18 +49,13 @@ class AbstractRif(_abc.ABC):
     soumission_kwargs: _typing.Dict[str, _typing.Any] = _dataclasses.field(
         default_factory=dict, repr=False, metadata={"exempt": True}
     )
-    temporary_directory: str = _dataclasses.field(
-        default=unique_temporary_directory(), repr=False, metadata={"exempt": True}
-    )
+    temporary_directory: str = _dataclasses.field(default_factory=unique_temporary_directory, repr=False, kw_only=True)
+
     # The namespace allows us to explicitly define the namespace for the operation if constructing
     # from __main__.
-    namespace: str = _dataclasses.field(default="", repr=False, metadata={"exempt": True, "kw_only": True})
+    namespace: str = _dataclasses.field(default="", repr=False, kw_only=True)
 
-    command_override: _typing.ClassVar[list] = ["python"]
-
-    def __post_init__(self) -> None:
-        """Post init method for the AbstractRif class."""
-        self.temporary_directory = unique_temporary_directory()
+    command: _typing.List[str] = _dataclasses.field(default_factory=lambda: ["python"], repr=False, kw_only=True)
 
     @_abc.abstractmethod
     def __call__(self, *args, **kwargs) -> _typing.Any:
@@ -80,9 +75,8 @@ class ProcessorRif(AbstractRif, _abc.ABC):
         command (str): The command to execute.
     """
 
-    command: str = _dataclasses.field(default="", metadata={"kw_only": True})
+    command: list = _dataclasses.field(default_factory=list, kw_only=True)
 
     @_abc.abstractmethod
     def __call__(self, *args, **kwargs) -> _typing.Any:
         """The call method for the processor RIF object."""
-        pass

@@ -17,7 +17,7 @@ from rifs.core.transmission import generate_script as _generate_script
 __all__ = ["Constructor"]
 
 
-_logger = _logging.getLogger("dd." + __name__)
+_logger = _logging.getLogger(__name__)
 _logger.addHandler(_logging.NullHandler())
 
 
@@ -71,13 +71,13 @@ class Constructor:
             # Convert the object to job
             rif_job_soumission = _insert_job(operation, temp_script_path, **operation.soumission_kwargs)
             # Inject the job into the resolver
-            _logger.info("Injecting job %s into the resolver.", rif_job_soumission.job_name)
+            _logger.info("Injecting job %s into the resolver.", rif_job_soumission)
             rifs_resolver.inject(operation, rif_job_soumission)
 
         return rifs_resolver
 
 
-def only_one(operation: _typing.Union[_AbstractRif, _Job]) -> _typing.Tuple[str, str]:
+def only_one(operation: _typing.Union[_AbstractRif]) -> _typing.Tuple[str, str]:
     """Submit only one job to the farm.
 
     Args:

@@ -27,28 +27,34 @@ __all__ = ["insert_job"]
 
 
 # Create a mock job object
-@_dataclasses.dataclass
+@_dataclasses.dataclass(eq=True, order=True)
 class _Job:
-    """The job object."""
+    """The mock job object, should be replaced with a real object wrapped on the
+    client side render system.
 
-    show: str = "DEV01"
+    Attributes:
+        show (str): The show name.
+        context (str): The context.
+        activity (str): The activity.
+        env (dict): The environment variables.
+        command (list): The command.
+        frame_range (str): The frame range.
+    """
+
+    context: str = "wgid"
     activity: str = "comprender"
-    job_class_type: str = "NukeJob"
-    job_name: str = "DEV01"
     env: dict = _dataclasses.field(default_factory=dict)
-    ram: int = 8000
-    cpus: int = 2
     command: list = _dataclasses.field(default_factory=list)
     frame_range: str = ""
-    auto_dump: bool = False
-    honor_cores: bool = True
 
-    def submit(self) -> int:
+    def submit(self):
         """Submit the job."""
-        with _subprocess.Popen(self.command) as process:
+        with _subprocess.Popen(self.command, stdout=_subprocess.PIPE, stderr=_subprocess.PIPE, text=True) as process:
+            # stdout, stderr = process.communicate()
             process.wait()
+            output = process.stdout.read() or process.stderr.read()
 
-        return process.returncode
+        return process.returncode, output
 
 
 def standard_job(**kwargs) -> _Job:
@@ -100,7 +106,7 @@ def insert_job(operation: "_AbstractRif", script: str, **kwargs) -> "_Job":
         Job: The job object.
     """
     rif_duck_job = standard_job(**kwargs)
-    rif_duck_job.command = operation.command_override + [script]  # pylint: disable=protected-access
+    rif_duck_job.command = operation.command + [script]  # pylint: disable=protected-access
     rif_duck_job.env["outputImage"] = kwargs.get("outputImage", "")
 
     for key, value in kwargs.items():
@@ -108,7 +114,7 @@ def insert_job(operation: "_AbstractRif", script: str, **kwargs) -> "_Job":
 
     # Set the values from the operation
     for rif_field in _dataclasses.fields(_AbstractRif):
-        if hasattr(operation, rif_field.name) and not rif_field.metadata.get("exempt"):
+        if hasattr(operation, rif_field.name) and not rif_field.kw_only:
             setattr(rif_duck_job, rif_field.name, getattr(operation, rif_field.name))
 
     return rif_duck_job

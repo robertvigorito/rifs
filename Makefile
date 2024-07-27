@@ -1,4 +1,6 @@
 
+package=rifs
+
 clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
 
 build: clean
@@ -55,8 +57,7 @@ poetry-install: clean
 
 test: ## run tests quickly with the default Python
 	$(MAKE) poetry-install
-	pylint $(package) --exit-zero
-	pytest --cov=$(package) --cov-report=term-missing --cov-fail-under=100 --cov-config=.coveragerc --cov-report=html
+	pytest --cov=$(package) --cov-report=term-missing --cov-fail-under=100 --cov-config=.coveragerc --cov-report=html tests/
 
 test-all: ## run tests on every Python version with tox
 	tox

@@ -28,7 +28,7 @@ from dataclasses import field as _field
 from rifs.core import AbstractRif as _AbstractRif
 
 try:
-    from submission.types.jobs.job import Job as _Job
+    from submission.types.jobs.job import Job as _Job  # type: ignore
 except ImportError:
     _Job = None
 
@@ -71,6 +71,14 @@ class Resolver:
     """The resolver class for the RIFs package."""
 
     groupings: _typing.List[Grouping] = _field(default_factory=list)
+
+    def __len__(self) -> int:
+        """Return the length of the resolver.
+
+        Returns:
+            int: The length of the resolver.
+        """
+        return len(self.groupings)
 
     def __iter__(self) -> _typing.Iterator["Grouping"]:
         """Iterate over the resolver.

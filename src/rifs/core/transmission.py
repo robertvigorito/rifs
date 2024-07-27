@@ -29,11 +29,30 @@ from rifs.core import constants as _constants
 # import dd.runtime.api
 
 # dd.runtime.api.load("python_black")
-# import black as _black
+import black as _black
 
 
-_logger = logging.getLogger("dd." + __name__)
+_logger = logging.getLogger(__name__)
 _logger.addHandler(logging.NullHandler())
+
+
+def scour_addition_imports(kwargs: dict) -> str:
+    """Scour the kwargs for any additional imports that are required for the script.
+
+    Args:
+        kwargs (dict): The kwargs for the operation.
+
+    Returns:
+        str: The additional imports for the script.
+    """
+    additional_imports = ""
+    for _, value in kwargs.items():
+        if not hasattr(value, "__module__"):
+            continue
+
+        additional_imports += f"from {value.__module__} import {type(value).__name__}\n"
+
+    return additional_imports
 
 
 def generate_script(operation: "rifs.core.AbstractRif") -> str:
@@ -56,18 +75,22 @@ def generate_script(operation: "rifs.core.AbstractRif") -> str:
     # Get the kwargs
     operation_kwargs = {}
     for field in _fields(operation):
-
-        print(field.metadata, field.init, field.name)
         # Moving to python 3.9 we can use the kw_only attribute
         ignore_field_condition = [field.metadata.get(key, False) for key in ["kw_only", "exempt"]]
-        if field.init and not any(ignore_field_condition):
+        if field.init and not any(ignore_field_condition) and not field.kw_only:
             operation_kwargs[field.name] = getattr(operation, field.name)
+
+    additional_imports = scour_addition_imports(operation_kwargs)
+
     # Build the script from the template and save it in the temp directory
     operation_duck_script = _constants.RIF_SCRIPT_TEMPLATE.format(
-        module=operation_module_name, class_name=operation_class_name, kwargs=operation_kwargs
+        module=operation_module_name,
+        additional_imports=additional_imports,
+        class_name=operation_class_name,
+        kwargs=operation_kwargs,
     )
     # Format the script with black - Make it pretty
-    # operation_duck_script = _black.format_str(operation_duck_script, mode=_black.FileMode())
+    operation_duck_script = _black.format_str(operation_duck_script, mode=_black.FileMode())
     # Write the script to the temporary directory
     temp_script_path = _os.path.join(operation.temporary_directory, f"rif_{operation_class_name.lower()}.py")
     with open(temp_script_path, "w", encoding="utf-8") as open_script_file:

@@ -22,7 +22,7 @@ version = "0.1.0"
 authors = ["robert-v <robertvigorito@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python =" >=3.8,<4"
 
 
 [tool.poetry.group.test.dependencies]
@@ -32,13 +32,15 @@ pylint = "^3.2.6"
 isort = {extras = ["color"], version = "^5.13.2"}
 black = "^24.4.2"
 colorama = "^0.4.6"
+pytest = "^8.3.2"
+pytest-sugar = "^1.0.0"
+pytest-isort = "^4.0.0"
+pytest-coverage = "^0.0"
 
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
-[tool.pylint.'MESSAGES CONTROL']
-max-line-length = 120
 
 [tool.tox]
 legacy_tox_ini = """
@@ -54,13 +56,19 @@ commands =
     pytest -s -rap .
 """
 
+# Pytest Setup
+[tool.pytest]
+addopts = "-s -rap"
+testpaths = ["tests"]
+
+
 # Black Setup
 [tool.black]
 line-length = 120
 
 # Pylint Setup
 [tool.pylint]
-line-length = 120
+max-line-length = 120
 
 # Isort Setup
 [tool.isort]

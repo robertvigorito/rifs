@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 """Nuke execute rif operations.
 """
 
@@ -9,7 +10,7 @@ from typing import List as _List
 # Package imports
 import rifs as _rifs
 
-_logger = _logging.getLogger("dd." + __name__)
+_logger = _logging.getLogger(__name__)
 _logger.addHandler(_logging.NullHandler())
 
 
@@ -71,7 +72,7 @@ class NukeOperation(_rifs.core.ProcessorRif):
     classic_rendering: bool = _dataclasses.field(default=False)
     topdown: bool = _dataclasses.field(default=False)
 
-    command: _List[str] = _dataclasses.field(default_factory=lambda: ["nuke-race", "-t", "-x"], init=False)
+    command: list[str] = _dataclasses.field(default_factory=lambda: ["nuke-race", "-t", "-x"], init=False)  # type: ignore
 
     def __post_init__(self):
         self.script = str(self.script)  # Ensure the script is a string
