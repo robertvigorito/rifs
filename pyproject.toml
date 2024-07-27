@@ -23,6 +23,7 @@ authors = ["robert-v <robertvigorito@gmail.com>"]
 
 [tool.poetry.dependencies]
 python =" >=3.8,<4"
+black = "^24.4.2"
 
 
 [tool.poetry.group.test.dependencies]
