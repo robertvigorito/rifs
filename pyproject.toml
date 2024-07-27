@@ -1,21 +1,17 @@
 [project]
-name = "alfred"
-version = "0.2.0"
-description = "API that manages wgid pipeline."
+name = "rifs"
+version = "0.1.0"
+description = "About Python Render Interface Frameworks. Less executables, more python."
 readme = "README.md"
 classifiers = [
-    "Development Status :: 5 - Production/Stable",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.4",
-    "Programming Language :: Python :: 3.5",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+
 ]
-requires-python = ">=3.4"
-license = {file = "LICENSE"}
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
 dependencies = [
     "pytest",
     "requests",
@@ -35,29 +31,16 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["alfred*"]  # alternatively: `exclude = ["additional*"]`
+include = ["alfred*"] # alternatively: `exclude = ["additional*"]`
 namespaces = false
-
-[project.scripts]
-wgid-shot-create = "alfred.cli.maker:create"
-showtime = "alfred.showtime:its_showtime"
-st = "alfred.showtime:its_showtime"
 
 # Poety Setup
 [tool.poetry]
-name = "alfred"
+description = "About Python Render Interface Frameworks. Less executables, more python."
+name = "rifs"
 version = "0.1.0"
-description = "Database pipeline manager and creater"
 authors = ["robert-v <robertvigorito@gmail.com>"]
 
-[tool.poetry.dependencies]
-
-
-[tool.poetry.group.test.dependencies]
-toml = "^0.10.2"
-pytest = "^7.2.1"
-pytest-cov = "^4.1.0"
-pytest-sugar = "^0.9.7"
 
 [build-system]
 requires = ["setuptools"]
