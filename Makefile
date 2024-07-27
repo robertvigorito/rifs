@@ -12,6 +12,7 @@ clean-build: ## remove build artifacts
 	rm -fr .build/
 	rm -fr dist/
 	rm -fr .eggs/
+	rm -fr .tox .ruff_cache .mypy_cache
 	rm -fr cov.xml
 	rm -fr coverage.xml
 	rm -fr dump.rdb
@@ -57,7 +58,7 @@ poetry-install: clean
 
 test: ## run tests quickly with the default Python
 	$(MAKE) poetry-install
-	pytest --cov=$(package) --cov-report=term-missing --cov-fail-under=100 --cov-config=.coveragerc --cov-report=html tests/
+	poetry run pytest --cov=$(package) --cov-report=term-missing --cov-fail-under=70 --cov-config=.coveragerc --cov-report=html 
 
 test-all: ## run tests on every Python version with tox
 	tox

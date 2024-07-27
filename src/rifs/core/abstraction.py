@@ -17,7 +17,7 @@ def unique_temporary_directory() -> str:
         str: The full path to the unique temporary directory.
     """
     # root = _os.path.expandvars("/$DD_SHOWS_ROOT/$DD_SHOW/$DD_SEQ/$DD_SHOT/user/work.$USER/farm/rifs")
-    root = _os.path.expandvars("/vfx/wgid/tmp/farm/rifs/$USER")
+    root = _os.path.expandvars("/tmp/farm/rifs/$USER")
     now = _datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
     full_path = _os.path.join(root, now, _uuid.uuid4().hex[:8])  # Create the directory
     _os.makedirs(full_path, exist_ok=True)
