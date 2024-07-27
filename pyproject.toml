@@ -70,6 +70,7 @@ line-length = 120
 # Pylint Setup
 [tool.pylint]
 max-line-length = 120
+disable = ["too-few-public-methods"]
 
 # Isort Setup
 [tool.isort]

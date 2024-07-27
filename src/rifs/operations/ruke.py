@@ -27,7 +27,7 @@ FLAG_MAPPING = {
 
 
 @_dataclasses.dataclass(eq=True, order=True)
-class NukeOperation(_rifs.core.ProcessorRif):
+class NukeOperation(_rifs.core.ProcessorRif):  # pylint: disable=too-many-instance-attributes,too-few-public-methods
     """The operation constructs the Nuke race commandline arguments. Which allows
     us to successfully render a nuke script on the farm.
 

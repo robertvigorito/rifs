@@ -36,7 +36,8 @@ class AbstractRif(_abc.ABC):
         name (str): The name of the operation.
         notes (str): The notes for the operation.
         depend_on (List[str]): The list of operations to depend on.
-        soumission_kwargs (Dict[str, Any]): The keyword arguments for the operation which passed to the submission operation.
+        soumission_kwargs (Dict[str, Any]): The keyword arguments for the operation which passed to the submission
+                                            operation.
         temporary_directory (str): The temporary directory for the operation.
         namespace (str): The namespace for the operation.
     """

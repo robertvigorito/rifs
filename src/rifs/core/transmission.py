@@ -22,15 +22,11 @@ import logging
 import os as _os
 from dataclasses import fields as _fields
 
+import black as _black
+
 # Package imports
 import rifs.core
 from rifs.core import constants as _constants
-
-# import dd.runtime.api
-
-# dd.runtime.api.load("python_black")
-import black as _black
-
 
 _logger = logging.getLogger(__name__)
 _logger.addHandler(logging.NullHandler())

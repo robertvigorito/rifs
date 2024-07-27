@@ -1,10 +1,11 @@
 """Standard import test for the base package.
 """
 
-# Package imports
-from rifs.fixtures.test import EchoOperation
 import rifs.core
 import rifs.transmit
+
+# Package imports
+from rifs.fixtures.test import EchoOperation
 
 
 def test_operation_output(capsys):

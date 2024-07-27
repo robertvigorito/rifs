@@ -17,7 +17,6 @@
 #
 """The backend render framework objects that are used to submit jobs."""
 import dataclasses as _dataclasses
-import os as _os
 import subprocess as _subprocess
 
 # Package imports
@@ -75,16 +74,9 @@ def standard_job(**kwargs) -> _Job:
     Returns:
         Job: The job object.
     """
-    show = _os.getenv("DD_SHOW", "DEV01")
     sousmission_job = _Job()
-    sousmission_job.show = show
-    sousmission_job.activity = "comprender"
-    sousmission_job.job_class_type = "NukeJob"
-    sousmission_job.job_name = show
     sousmission_job.env["outputImage"] = kwargs.get("outputImage", "")
     # Default ram and cpu
-    sousmission_job.ram = 8000
-    sousmission_job.cpus = 2
 
     for key, value in kwargs.items():
         setattr(sousmission_job, key, value)

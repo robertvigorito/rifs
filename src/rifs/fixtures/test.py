@@ -1,8 +1,8 @@
 """The rifs fixtures for testing.
 """
 
-from pathlib import Path, PosixPath
 from dataclasses import dataclass, field
+from pathlib import Path, PosixPath
 
 # Package imports
 import rifs.core

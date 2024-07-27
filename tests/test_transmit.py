@@ -2,6 +2,7 @@
 """
 
 import pytest
+
 import rifs.core
 import rifs.transmit
 from rifs.core.soumission import standard_job
