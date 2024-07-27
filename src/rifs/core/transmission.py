@@ -22,15 +22,14 @@ import logging
 import os as _os
 from dataclasses import fields as _fields
 
+# Package imports
+import rifs.core
+from rifs.core import constants as _constants
+
 # import dd.runtime.api
 
 # dd.runtime.api.load("python_black")
 # import black as _black
-
-
-# Package imports
-import rifs.core
-from rifs.core import constants as _constants
 
 
 _logger = logging.getLogger("dd." + __name__)
@@ -39,7 +38,7 @@ _logger.addHandler(logging.NullHandler())
 
 def generate_script(operation: "rifs.core.AbstractRif") -> str:
     """Generate a script from the operation object. If the operation object is a processor
-    we skip the generation of the script. Its not necessary since we are using the straight 
+    we skip the generation of the script. Its not necessary since we are using the straight
     command.
 
     Args:
@@ -57,7 +56,6 @@ def generate_script(operation: "rifs.core.AbstractRif") -> str:
     # Get the kwargs
     operation_kwargs = {}
     for field in _fields(operation):
-
 
         print(field.metadata, field.init, field.name)
         # Moving to python 3.9 we can use the kw_only attribute

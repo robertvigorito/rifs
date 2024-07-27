@@ -10,29 +10,9 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 license = { file = "LICENSE" }
-dependencies = [
-    "pytest",
-    "requests",
-    "toml",
-    "PyYAML",
-    "confuse",
-    "anytree",
-    "requests",
-    "bs4",
-]
-#[tool.setuptools]
-## ...
-#package-dir = {"" = "src"}
 
-#[tool.setuptools.package-dir]
-#mypkg = "src"
-
-[tool.setuptools.packages.find]
-where = ["src"]
-include = ["alfred*"] # alternatively: `exclude = ["additional*"]`
-namespaces = false
 
 # Poety Setup
 [tool.poetry]
@@ -41,6 +21,17 @@ name = "rifs"
 version = "0.1.0"
 authors = ["robert-v <robertvigorito@gmail.com>"]
 
+[tool.poetry.dependencies]
+python = ">=3.8"
+
+
+[tool.poetry.group.test.dependencies]
+mypy = "^1.11.0"
+ruff = "^0.5.5"
+pylint = "^3.2.6"
+isort = {extras = ["color"], version = "^5.13.2"}
+black = "^24.4.2"
+colorama = "^0.4.6"
 
 [build-system]
 requires = ["setuptools"]
@@ -62,3 +53,16 @@ commands =
     pip install . pytest
     pytest -s -rap .
 """
+
+# Black Setup
+[tool.black]
+line-length = 120
+
+# Pylint Setup
+[tool.pylint]
+line-length = 120
+
+# Isort Setup
+[tool.isort]
+line_length = 120
+profile = "black"

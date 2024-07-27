@@ -20,9 +20,9 @@ to the corresponding jobs.
 """
 
 import typing as _typing
-
 from collections import namedtuple as _namedtuple
-from dataclasses import dataclass as _dataclass, field as _field
+from dataclasses import dataclass as _dataclass
+from dataclasses import field as _field
 
 # Package imports
 from rifs.core import AbstractRif as _AbstractRif

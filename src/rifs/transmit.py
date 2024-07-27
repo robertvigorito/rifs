@@ -6,13 +6,13 @@ import dataclasses as _dataclasses
 import logging as _logging
 import typing as _typing
 
+from rifs.core import AbstractRif as _AbstractRif
+from rifs.core import insert_job as _insert_job
+from rifs.core.resolver import Resolver as _Resolver
+
 # Internal imports
 from rifs.core.soumission import _Job
 from rifs.core.transmission import generate_script as _generate_script
-from rifs.core import AbstractRif as _AbstractRif, insert_job as _insert_job
-from rifs.core.resolver import Resolver as _Resolver
-
-
 
 __all__ = ["Constructor"]
 

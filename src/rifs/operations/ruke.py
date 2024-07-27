@@ -1,14 +1,13 @@
 """Nuke execute rif operations.
 """
-import os as _os
-import logging as _logging
-import dataclasses as _dataclasses
 
+import dataclasses as _dataclasses
+import logging as _logging
+import os as _os
 from typing import List as _List
 
 # Package imports
 import rifs as _rifs
-
 
 _logger = _logging.getLogger("dd." + __name__)
 _logger.addHandler(_logging.NullHandler())
@@ -46,7 +45,7 @@ class NukeOperation(_rifs.core.ProcessorRif):
         not_writes (bool): Direct all writes to null when executing a script.
         classic_rendering (bool): Classic rendering architecture which renders the node graph scanline-by-scanline, on demand.
         topdown (bool): Top-down mode renders the node graph from the top to the bottom, node-by-node. It is faster than classic rendering, although it will consume more memory and lose progressive rendering. In cases where memory pressure is a high concern, or where progressive rendering is required, classic mode should be used.
-        
+
 
     Examples:
         >>> nuke_render = NukeOperation(

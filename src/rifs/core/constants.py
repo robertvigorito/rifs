@@ -1,6 +1,5 @@
 """The internal constants for the rif module."""
 
-
 __all__ = ["RIF_SCRIPT_TEMPLATE"]
 
 

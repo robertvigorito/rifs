@@ -16,15 +16,15 @@
 # Copyright (c) [2024] Digital Domain 3.0, Inc. All rights reserved.
 #
 """The backend render framework objects that are used to submit jobs."""
-
 import dataclasses as _dataclasses
 import os as _os
+import subprocess as _subprocess
 
 # Package imports
 from rifs.core.abstraction import AbstractRif as _AbstractRif
 
-
 __all__ = ["insert_job"]
+
 
 # Create a mock job object
 @_dataclasses.dataclass
@@ -43,12 +43,12 @@ class _Job:
     auto_dump: bool = False
     honor_cores: bool = True
 
-    def submit(self):
+    def submit(self) -> int:
         """Submit the job."""
-        import subprocess
-        process = subprocess.Popen(self.command)
-        process.wait()
-        return process
+        with _subprocess.Popen(self.command) as process:
+            process.wait()
+
+        return process.returncode
 
 
 def standard_job(**kwargs) -> _Job:
@@ -86,7 +86,7 @@ def standard_job(**kwargs) -> _Job:
     return sousmission_job
 
 
-def insert_job(operation: "_AbstractRif", script: str, **kwargs) -> "_job.Job":
+def insert_job(operation: "_AbstractRif", script: str, **kwargs) -> "_Job":
     """Wrap a rifs operation into a job object.
 
     Args:
@@ -101,7 +101,6 @@ def insert_job(operation: "_AbstractRif", script: str, **kwargs) -> "_job.Job":
     """
     rif_duck_job = standard_job(**kwargs)
     rif_duck_job.command = operation.command_override + [script]  # pylint: disable=protected-access
-    print(rif_duck_job.command)
     rif_duck_job.env["outputImage"] = kwargs.get("outputImage", "")
 
     for key, value in kwargs.items():

@@ -6,7 +6,6 @@ import datetime as _datetime
 import os as _os
 import typing as _typing
 import uuid as _uuid
-import tempfile as _tempfile
 
 __all__ = ["AbstractRif", "ProcessorRif", "unique_temporary_directory"]
 
@@ -69,7 +68,7 @@ class AbstractRif(_abc.ABC):
 
 
 @_dataclasses.dataclass
-class ProcessorRif(AbstractRif):
+class ProcessorRif(AbstractRif, _abc.ABC):
     """The processor RIF object is a low level object that doesn't require the python executable framework.
 
     All it requires is a command that is translated to the sumbmission job object in the transmission stage.
@@ -83,6 +82,7 @@ class ProcessorRif(AbstractRif):
 
     command: str = _dataclasses.field(default="", metadata={"kw_only": True})
 
+    @_abc.abstractmethod
     def __call__(self, *args, **kwargs) -> _typing.Any:
         """The call method for the processor RIF object."""
-        raise NotImplementedError("The processor RIF object is not callable.")
+        pass
