@@ -83,4 +83,3 @@ profile = "black"
 
 [tool.mypy]
 follow_imports = "normal"
-custom_typeshed_dir= "./out"

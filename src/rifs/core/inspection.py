@@ -2,13 +2,12 @@
 discovered imports and defined attributes.
 """
 
-from collections import namedtuple as _namedtuple
-from dataclasses import dataclass
 from typing import Any as _Any
 from typing import Generator as _Generator
+from typing import NamedTuple as _NamedTuple
 
 
-def define_namedtuple(value: "_namedtuple") -> str:
+def define_namedtuple(value: "_NamedTuple") -> str:
     """Define a namedtuple from the object.
 
     Args:
@@ -22,7 +21,7 @@ def define_namedtuple(value: "_namedtuple") -> str:
     return f"{name} = namedtuple('{name}', {fields})"
 
 
-def find_import(value: object, namespace: str) -> str:
+def find_import(value: object, namespace: str = "", enforce=False) -> str:
     """Find the import for the object.
 
     Args:
@@ -39,7 +38,7 @@ def find_import(value: object, namespace: str) -> str:
         name = value.__name__
 
     module_name = value.__module__
-    if module_name == "__main__":
+    if module_name == "__main__" or enforce:
         module_name = namespace
 
     return f"from {module_name} import {name}"

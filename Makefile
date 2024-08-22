@@ -50,6 +50,10 @@ lint:
 	@pylint --exit-zero $(files)
 	@ruff check $(files)
 
+check:
+	@mypy ./src
+
+lint-check: lint check
 
 install: clean
 	pip install --upgrade .

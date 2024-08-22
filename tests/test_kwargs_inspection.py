@@ -7,14 +7,29 @@ from pathlib import Path
 import pytest
 
 from rifs.core import inspection
-from rifs.core import inspection as inspection
 from rifs.fixtures.test import TestTuple
 
 # Example namedtuple for testing
 
 
-@pytest.fixture
-def sample_kwargs() -> dict[str, object]:
+class MainOps:  # pylint: disable=too-few-public-methods
+    """Main operations for testing."""
+
+    def __init__(self, a: int, b: int, c: int) -> None:
+        """Initialize the MainOps class.
+
+        Args:
+            a (int): The first value.
+            b (int): The second value.
+            c (int): The third value.
+        """
+        self.a = a
+        self.b = b
+        self.c = c
+
+
+@pytest.fixture(name="sample_kwargs")
+def sample_kwargs_fixture() -> dict[str, object]:
     """Return a sample kwargs dictionary for testing."""
 
     return {
@@ -79,3 +94,21 @@ from collections import namedtuple
 from pathlib import PosixPath
 TestTuple = namedtuple('TestTuple', ('a', 'b'))"""
     assert result == expected
+
+
+def test_find_import_from_build():
+    """Test the find_import function with a built-in type."""
+    value = 42
+    expected = ""
+    assert inspection.find_import(value, "rifs.core") == expected
+
+    TestTupleTwo = namedtuple("TestTupleTwo", ["a", "b"])(1, 2)  # pylint: disable=invalid-name
+
+    assert (
+        inspection.find_import(TestTupleTwo, namespace="tests.test_kwargs_inspection")
+        == "from tests.test_kwargs_inspection import TestTupleTwo"
+    )
+
+    assert (
+        inspection.find_import(MainOps(1, 2, 3), namespace="rifs.core", enforce=True) == "from rifs.core import MainOps"
+    )

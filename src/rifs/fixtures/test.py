@@ -39,6 +39,4 @@ class PathPrinter(rifs.core.AbstractRif):
         print("Path Two:", self.path_two)
 
 
-
 TestTuple = namedtuple("TestTuple", ["a", "b"])
-# 
