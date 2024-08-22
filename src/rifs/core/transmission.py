@@ -27,28 +27,10 @@ import black as _black
 # Package imports
 import rifs.core
 from rifs.core import constants as _constants
+from rifs.core.inspection import formatted_base as _formatted_base
 
 _logger = logging.getLogger(__name__)
 _logger.addHandler(logging.NullHandler())
-
-
-def scour_addition_imports(kwargs: dict) -> str:
-    """Scour the kwargs for any additional imports that are required for the script.
-
-    Args:
-        kwargs (dict): The kwargs for the operation.
-
-    Returns:
-        str: The additional imports for the script.
-    """
-    additional_imports = ""
-    for _, value in kwargs.items():
-        if not hasattr(value, "__module__"):
-            continue
-
-        additional_imports += f"from {value.__module__} import {type(value).__name__}\n"
-
-    return additional_imports
 
 
 def generate_script(operation: "rifs.core.AbstractRif") -> str:
@@ -76,12 +58,10 @@ def generate_script(operation: "rifs.core.AbstractRif") -> str:
         if field.init and not any(ignore_field_condition) and not field.kw_only:
             operation_kwargs[field.name] = getattr(operation, field.name)
 
-    additional_imports = scour_addition_imports(operation_kwargs)
-
     # Build the script from the template and save it in the temp directory
     operation_duck_script = _constants.RIF_SCRIPT_TEMPLATE.format(
         module=operation_module_name,
-        additional_imports=additional_imports,
+        additional_imports=_formatted_base(operation_kwargs, operation_module_name),
         class_name=operation_class_name,
         kwargs=operation_kwargs,
     )

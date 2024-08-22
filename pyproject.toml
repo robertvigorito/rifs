@@ -80,3 +80,7 @@ disable = ["too-few-public-methods"]
 [tool.isort]
 line_length = 120
 profile = "black"
+
+[tool.mypy]
+follow_imports = "normal"
+custom_typeshed_dir= "./out"

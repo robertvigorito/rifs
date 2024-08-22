@@ -1,6 +1,7 @@
 """The rifs fixtures for testing.
 """
 
+from collections import namedtuple
 from dataclasses import dataclass, field
 from pathlib import Path, PosixPath
 
@@ -36,3 +37,8 @@ class PathPrinter(rifs.core.AbstractRif):
 
         print("Path One:", self.path_one)
         print("Path Two:", self.path_two)
+
+
+
+TestTuple = namedtuple("TestTuple", ["a", "b"])
+# 

@@ -8,6 +8,7 @@ build: clean
 	pip install . -t $(BUILD_LOCATION) --upgrade
 
 clean-build: ## remove build artifacts
+	rm -fr out/
 	rm -fr build/
 	rm -fr .build/
 	rm -fr dist/

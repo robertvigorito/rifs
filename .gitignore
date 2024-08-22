@@ -102,6 +102,9 @@ ENV/
 # mypy
 .mypy_cache/
 
+# mypy stubs
+out/**
+
 # IDE settings
 .vscode/
 .idea/
